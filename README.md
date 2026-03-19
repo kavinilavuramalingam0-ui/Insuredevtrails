@@ -52,12 +52,19 @@ Order flow drops, delivery time increases, and the worker logs out early.
 # 🧠 Risk Score Calculation
 
 ## Step 1: Normalize Inputs
-
----
+RainScore = min(rainfall / 50, 1)
+HeatScore = min((temp - 35) / 10, 1)
+AQIScore = min((AQI - 100) / 200, 1)
+TrafficScore = min((delay - 1) / 2, 1)
+ShutdownScore = 0 or 1
 
 ## Step 2: Weighted Risk Score
-
----
+Risk Score =
+(RainScore × 0.30) +
+(HeatScore × 0.15) +
+(AQIScore × 0.15) +
+(TrafficScore × 0.20) +
+(ShutdownScore × 0.20)
 
 ## Risk Interpretation
 
@@ -73,6 +80,7 @@ Order flow drops, delivery time increases, and the worker logs out early.
 # 💰 Weekly Premium Calculation
 
 ## Base Premium
+- Base Premium = ₹100/week
 
 ---
 
@@ -90,7 +98,9 @@ Order flow drops, delivery time increases, and the worker logs out early.
 ---
 
 ### Behavior Factor
-
+- No claims → 0.9
+- Normal → 1.0
+- Frequent claims → 1.2
 ---
 
 ### Coverage Multiplier (Plan Based)
@@ -104,13 +114,13 @@ Order flow drops, delivery time increases, and the worker logs out early.
 ---
 
 ## Final Premium Formula
-
+- Premium = Base × Risk Multiplier × Behavior Factor × Coverage Multiplier
 ---
 
 # 💸 Payout Calculation
 
 ## Step 1: Average Hourly Income
-
+- AvgHourlyIncome = Last 7 days earnings / total hours worked
 ---
 
 ## Step 2: Disruption Factor (Derived from Risk Score)
@@ -125,11 +135,11 @@ Order flow drops, delivery time increases, and the worker logs out early.
 ---
 
 ## Step 3: Lost Hours
-
+- Lost Hours = Shift Duration × Disruption Factor
 ---
 
 ## Step 4: Final Payout
-
+- Payout = AvgHourlyIncome × LostHours × Coverage %
 ---
 
 # 🤖 AI/ML Integration
@@ -138,9 +148,9 @@ Order flow drops, delivery time increases, and the worker logs out early.
 - Rule-based → upgraded to ML (XGBoost)
 
 ### 2. Lost Hours Prediction
-
+- LostHours = ML(rain, temp, AQI, traffic, time, location)
 ### 3. Dynamic Pricing
-
+- Premium ≈ % of predicted income loss
 ### 4. Fraud Detection
 - Hybrid system (rules + ML anomaly detection)
 
@@ -269,8 +279,6 @@ Realtime: WebSockets
 
 ---
 
-
----
 
 # 🧪 Development Plan
 
